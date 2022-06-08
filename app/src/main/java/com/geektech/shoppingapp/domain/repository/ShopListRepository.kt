@@ -12,7 +12,6 @@ interface ShopListRepository {
 
     fun getShopItem(shopItemId: Int): ShopItem
 
-    //refactor
     fun getShopList() : List<ShopItem>
 
 }

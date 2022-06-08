@@ -1,4 +1,4 @@
-package com.geektech.shoppingapp.presentation
+package com.geektech.shoppingapp.presentation.ui.activity.main
 
 import android.content.ContentValues.TAG
 import android.os.Bundle
@@ -44,7 +44,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                         binding.etItem.text.toString().toInt()
                     )
                 )
-
             }
             btnGetItem.setOnClickListener {
                 viewModel.getShopItem(ShopItem(binding.etItem.text.toString(), 14, false, 14))

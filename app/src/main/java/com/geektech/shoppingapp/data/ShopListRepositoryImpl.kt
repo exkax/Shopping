@@ -2,6 +2,7 @@ package com.geektech.shoppingapp.data
 
 import com.geektech.shoppingapp.domain.entity.ShopItem
 import com.geektech.shoppingapp.domain.repository.ShopListRepository
+import kotlin.random.Random
 
 class ShopListRepositoryImpl : ShopListRepository {
 
@@ -11,8 +12,8 @@ class ShopListRepositoryImpl : ShopListRepository {
     private var autoIncrementId = 0
 
     init {
-        for (i in 0..15) {
-            addShopItem(ShopItem("potato", i, false))
+        for (i in 1..100) {
+            addShopItem(ShopItem("potato", i, Random.nextBoolean()))
         }
     }
 
@@ -36,7 +37,6 @@ class ShopListRepositoryImpl : ShopListRepository {
 
     override fun getShopItem(shopItemId: Int): ShopItem {
         return shopList.find {
-            println(it.id)
             it.id == shopItemId
         } ?: throw RuntimeException("element not found")
     }

@@ -1,4 +1,4 @@
-package com.geektech.shoppingapp.presentation
+package com.geektech.shoppingapp.presentation.ui.activity.main
 
 import androidx.lifecycle.ViewModel
 import com.geektech.shoppingapp.data.ShopListRepositoryImpl
