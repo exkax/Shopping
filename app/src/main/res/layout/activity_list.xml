@@ -7,13 +7,14 @@
     tools:context=".presentation.ui.activity.list.ListActivity">
 
     <androidx.recyclerview.widget.RecyclerView
-        tools:listitem="@layout/item_shop"
         android:id="@+id/list_rv"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/item_shop" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

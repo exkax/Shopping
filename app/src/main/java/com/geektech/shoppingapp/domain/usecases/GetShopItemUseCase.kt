@@ -5,7 +5,7 @@ import com.geektech.shoppingapp.domain.repository.ShopListRepository
 
 class GetShopItemUseCase constructor(private val repository: ShopListRepository) {
 
-    fun getShopItem(shopItemId: ShopItem): ShopItem{
+    fun getShopItem(shopItemId: ShopItem): ShopItem {
         return repository.getShopItem(shopItemId.id)
     }
 }
