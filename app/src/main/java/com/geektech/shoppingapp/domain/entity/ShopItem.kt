@@ -2,7 +2,7 @@ package com.geektech.shoppingapp.domain.entity
 
 data class ShopItem(
     val name: String?,
-    val count: Int,
+    val count: Int?,
     val enable: Boolean,
     var id: Int = UNDEFINED_ID
 ) {

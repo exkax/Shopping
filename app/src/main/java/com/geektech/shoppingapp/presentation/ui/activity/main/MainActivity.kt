@@ -5,17 +5,15 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.geektech.shoppingapp.R
 import com.geektech.shoppingapp.databinding.ActivityMainBinding
 import com.geektech.shoppingapp.domain.entity.ShopItem
-import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     private val viewModel: MainViewModel by viewModels()
-    private val binding: ActivityMainBinding by viewBinding()
+    private val binding: ActivityMainBinding by viewBinding(ActivityMainBinding::bind)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,9 +61,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
             }
             btnGetList.setOnClickListener {
-                lifecycleScope.launch {
-                    Log.d(TAG, "initListeners: ${viewModel.getShopList()}")
-                }
+                Log.d(TAG, "initListeners: ${viewModel.getShopList()}")
             }
             btnAddItem.setOnClickListener {
                 viewModel.addShopItem(ShopItem(binding.etItem.text.toString(), 10, false))

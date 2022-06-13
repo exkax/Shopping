@@ -2,19 +2,18 @@ package com.geektech.shoppingapp.presentation.ui.activity.list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.geektech.shoppingapp.databinding.ItemNotShopBinding
 import com.geektech.shoppingapp.databinding.ItemShopBinding
 import com.geektech.shoppingapp.domain.entity.ShopItem
 import com.google.android.material.snackbar.Snackbar
 
-private const val LAYOUT_TRUE = 0
-private const val LAYOUT_FALSE = 1
-
 class ShopAdapter(private val onClickItem: (shopItem: ShopItem) -> Unit) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private var list = listOf<ShopItem>()
+    private var _list = listOf<ShopItem>()
+    var list = listOf<ShopItem>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         try {
@@ -28,7 +27,7 @@ class ShopAdapter(private val onClickItem: (shopItem: ShopItem) -> Unit) :
                         )
                     )
                 }
-                LAYOUT_FALSE -> {
+                else -> {
                     return NotShopViewHolder(
                         ItemNotShopBinding.inflate(
                             LayoutInflater.from(parent.context),
@@ -41,11 +40,11 @@ class ShopAdapter(private val onClickItem: (shopItem: ShopItem) -> Unit) :
         } catch (e: IllegalStateException) {
             Snackbar.make(parent, "An error has occurred, wait", Snackbar.LENGTH_SHORT).show()
         }
-        throw RuntimeException("Not Found")
+        throw IllegalArgumentException("Not found")
     }
 
     override fun getItemViewType(position: Int): Int {
-        return when (list[position].enable) {
+        return when (_list[position].enable) {
             true -> LAYOUT_TRUE
             false -> LAYOUT_FALSE
         }
@@ -54,8 +53,8 @@ class ShopAdapter(private val onClickItem: (shopItem: ShopItem) -> Unit) :
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         try {
             when (getItemViewType(position)) {
-                LAYOUT_TRUE -> (holder as ShopViewHolder).onBind(list[position])
-                LAYOUT_FALSE -> (holder as NotShopViewHolder).onBind(list[position])
+                LAYOUT_TRUE -> (holder as ShopViewHolder).onBind(_list[position])
+                LAYOUT_FALSE -> (holder as NotShopViewHolder).onBind(_list[position])
             }
         } catch (e: IllegalStateException) {
             Snackbar.make(holder.itemView, "An error has occurred, wait", Snackbar.LENGTH_SHORT)
@@ -63,11 +62,14 @@ class ShopAdapter(private val onClickItem: (shopItem: ShopItem) -> Unit) :
         }
     }
 
-    override fun getItemCount() = list.size
+    override fun getItemCount() = _list.size
 
-    fun setList(list: List<ShopItem>) {
-        this.list = list
-        notifyDataSetChanged()
+    fun setLists(list: List<ShopItem>) {
+        val callback = ShopListDiffCallback(this._list, list)
+        val diffResult = DiffUtil.calculateDiff(callback)
+        diffResult.dispatchUpdatesTo(this)
+        this._list = list
+        this.list = _list
     }
 
     inner class ShopViewHolder(private val binding: ItemShopBinding) :
@@ -94,5 +96,10 @@ class ShopAdapter(private val onClickItem: (shopItem: ShopItem) -> Unit) :
                 return@setOnLongClickListener true
             }
         }
+    }
+
+    companion object {
+        private const val LAYOUT_TRUE = 0
+        private const val LAYOUT_FALSE = 1
     }
 }
